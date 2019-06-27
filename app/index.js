@@ -9,8 +9,9 @@ let queue = housecall({
     concurrency: 1,
     cooldown: 700
 })
-
-mongoose.connect(`mongodb://127.0.0.1:27017/43einhalb`, {
+let devDB = `mongodb://127.0.0.1:27017/43einhalb`
+let prodDB = `mongodb://"172.17.0.2/43einhalb`
+mongoose.connect(prodDB, {
     useNewUrlParser: true,
     useCreateIndex: true
 })
