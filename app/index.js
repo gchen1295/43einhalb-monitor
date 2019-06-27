@@ -6,8 +6,8 @@ const Products = require('./models/product')
 let date = new Date()
 let dateFormat = `${date.getFullYear()}-${date.getDay()}-${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 let queue = housecall({
-    concurrency: 3,
-    cooldown: 2000
+    concurrency: 1,
+    cooldown: 700
 })
 
 mongoose.connect(`mongodb://127.0.0.1:27017/43einhalb`, {
@@ -71,7 +71,7 @@ function startmonitor() {
                                         "title": `${productTitle} - New Product`,
                                         "url": productLink,
                                         "thumbnail": {
-                                            "url": 'https://www.43einhalb.com/files/image/id/200478/w/350/h/210/n/nike-woman-618919-030-benassi-jdi-print-1.jpg' //productImage
+                                            "url": 'https://i.gyazo.com/4e7a4b6834400626ecf0a45d370e1f20.png' //productImage
                                         },
                                         "fields": [{
                                                 "name": `Price:`,
@@ -115,7 +115,7 @@ function startmonitor() {
                                             },
                                             {
                                                 name: `Sizes`,
-                                                value: productVariants.join(' ')
+                                                value: productVariants.join('\n')
                                             }
                                         ],
                                         footer: {
@@ -130,10 +130,11 @@ function startmonitor() {
                                     productVariants: productVariants
                                 })
                             } else if (found.productVariants.filter(e => !productVariants.includes(e)).length != 0) {
+                                console.log(``)
                                 Products.findOneAndUpdate({
                                     productID: productID
                                 }, {
-                                    productSizes: productSizes
+                                    productVariants: productVariants
                                 })
                             }
                         }
@@ -143,5 +144,5 @@ function startmonitor() {
             }).catch(err => {
                 console.log(err)
             })
-    }, 1000)
+    }, 1500)
 }
