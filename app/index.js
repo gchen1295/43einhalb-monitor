@@ -7,10 +7,10 @@ let date = new Date()
 let dateFormat = `${date.getFullYear()}-${date.getDay()}-${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 let queue = housecall({
     concurrency: 1,
-    cooldown: 700
+    cooldown: 800
 })
 let devDB = `mongodb://127.0.0.1:27017/43einhalb`
-let prodDB = `mongodb://"172.17.0.2/43einhalb`
+let prodDB = `mongodb://172.17.0.2/43einhalb`
 mongoose.connect(prodDB, {
     useNewUrlParser: true,
     useCreateIndex: true
