@@ -18,7 +18,8 @@ mongoose.connect(prodDB, {
 mongoose.Promise = global.Promise;
 
 var webHookURLs = [
-    'https://discordapp.com/api/webhooks/593547499407540292/MhECH6BnkcsR8Dn5_DMnBJRTpYeq_3sS9NpJJmfyPA61SeJGp6k6g8fj-CAue9j8JfU4'
+    'https://discordapp.com/api/webhooks/593547499407540292/MhECH6BnkcsR8Dn5_DMnBJRTpYeq_3sS9NpJJmfyPA61SeJGp6k6g8fj-CAue9j8JfU4',
+    'https://discordapp.com/api/webhooks/593697321737519116/zY_uXYD0U_5JHB36_9xY2UwtJU66MbgEOnvqyAhHi4zrqRWi_VoNdBKYJTL8fBJ8NC-q'
 ]
 
 async function sendDicordWebhook(embedData) {
