@@ -13,17 +13,19 @@ let devDB = `mongodb://127.0.0.1:27017/43einhalb`
 let prodDB = `mongodb://172.17.0.2/43einhalb`
 mongoose.connect(prodDB, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+
 })
 mongoose.Promise = global.Promise;
 
 var webHookURLs = [
     'https://discordapp.com/api/webhooks/593547499407540292/MhECH6BnkcsR8Dn5_DMnBJRTpYeq_3sS9NpJJmfyPA61SeJGp6k6g8fj-CAue9j8JfU4',
-    'https://discordapp.com/api/webhooks/593697321737519116/zY_uXYD0U_5JHB36_9xY2UwtJU66MbgEOnvqyAhHi4zrqRWi_VoNdBKYJTL8fBJ8NC-q'
+    "https://discordapp.com/api/webhooks/593919719933739029/WUbBcmkcw4kn6VguQ3ur0C1Ad5bgLqUuIIWoc-kwkZP48bB06htF7J-IZz4f_0FNSeqJ"
+    
 ]
 
 async function sendDicordWebhook(embedData) {
-    for (url in webHookURLs) {
+    for (let url in webHookURLs) {
         queue.push(() => {
             axios.post(webHookURLs[url], embedData)
         })
@@ -56,12 +58,7 @@ function startmonitor() {
                             productVariants.push($(e).children('a').text());
                         }
                     })
-                    // console.log(productID)
-                    // console.log(productTitle)
-                    // console.log(productLink)
-                    // console.log(productPrice)
-                    //console.log(productImage)
-                    // console.log(productVariants)
+            
                     Products.findOne({
                         productID: productID
                     }).then((found) => {
@@ -102,41 +99,43 @@ function startmonitor() {
                         } else {
                             if (productVariants.filter(e => !found.productVariants.includes(e)).length != 0) {
                                 console.log("Restock!")
-                                sendDicordWebhook({
-                                    embeds: [{
-                                        color: 0xa350f9,
-                                        title: `${productTitle} - Restocked`,
-                                        url: productLink,
-                                        thumbnail: {
-                                            url: productImage
-                                        },
-                                        fields: [{
-                                                name: `Price:`,
-                                                value: productPrice,
-                                                inline: true
-                                            },
-                                            {
-                                                name: `Sizes`,
-                                                value: productVariants.join('\n')
-                                            }
-                                        ],
-                                        footer: {
-                                            icon_url: 'https://pbs.twimg.com/profile_images/1137456856102789120/mAGLqFyF_400x400.png',
-                                            text: `Powered By: Kex Software | ${dateFormat}`
-                                        }
-                                    }]
-                                })
                                 Products.findOneAndUpdate({
                                     productID: productID
                                 }, {
                                     productVariants: productVariants
+                                }).then(()=>{
+                                    sendDicordWebhook({
+                                        embeds: [{
+                                            color: 0xa350f9,
+                                            title: `${productTitle} - Restocked`,
+                                            url: productLink,
+                                            thumbnail: {
+                                                url: 'https://i.gyazo.com/4e7a4b6834400626ecf0a45d370e1f20.png'//productImage
+                                            },
+                                            fields: [{
+                                                    name: `Price:`,
+                                                    value: productPrice,
+                                                    inline: true
+                                                },
+                                                {
+                                                    name: `Sizes`,
+                                                    value: productVariants.join(' ')
+                                                }
+                                            ],
+                                            footer: {
+                                                icon_url: 'https://pbs.twimg.com/profile_images/1137456856102789120/mAGLqFyF_400x400.png',
+                                                text: `Powered By: Kex Software | ${dateFormat}`
+                                            }
+                                        }]
+                                    })
                                 })
                             } else if (found.productVariants.filter(e => !productVariants.includes(e)).length != 0) {
-                                console.log(``)
                                 Products.findOneAndUpdate({
                                     productID: productID
                                 }, {
                                     productVariants: productVariants
+                                }).then(()=>{
+                                    console.log("Destocked")
                                 })
                             }
                         }
