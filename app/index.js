@@ -7,7 +7,7 @@ let date = new Date()
 let dateFormat = `${date.getFullYear()}-${date.getDay()}-${date.getMonth() + 1} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
 let queue = housecall({
     concurrency: 1,
-    cooldown: 900
+    cooldown: 1100
 })
 let devDB = `mongodb://127.0.0.1:27017/43einhalb`
 let prodDB = `mongodb://172.17.0.2/43einhalb`
@@ -20,7 +20,7 @@ mongoose.Promise = global.Promise;
 
 var webHookURLs = [
     'https://discordapp.com/api/webhooks/593547499407540292/MhECH6BnkcsR8Dn5_DMnBJRTpYeq_3sS9NpJJmfyPA61SeJGp6k6g8fj-CAue9j8JfU4',
-    "https://discordapp.com/api/webhooks/593919719933739029/WUbBcmkcw4kn6VguQ3ur0C1Ad5bgLqUuIIWoc-kwkZP48bB06htF7J-IZz4f_0FNSeqJ"
+    "https://discordapp.com/api/webhooks/593697321737519116/zY_uXYD0U_5JHB36_9xY2UwtJU66MbgEOnvqyAhHi4zrqRWi_VoNdBKYJTL8fBJ8NC-q"
     
 ]
 
